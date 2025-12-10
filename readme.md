@@ -7,15 +7,33 @@ Decoding invasive neural signals **reliably and efficiently** into behavioral va
 With `ndkit`, you can:
 
 - **Quickly build** neural decoders  
-  (FFN, RNN, GRU, LSTM, Transformer, iTransformer, RWKV, StateMoE, etc.)
 - **Systematically compare** model performance across datasets and tasks
 - **Easily extend** the system with custom models or datasets
 
 
 
-# 1. Setup
+# 1. Supported Models
 
-## 1.1 Environment Setup
+ndkit implements a broad collection of neural decoding models, this section lists all currently supported models.
+
+* [x] **WF** — wiener filter (linear regression)
+* [x] **KF** — kalman filter regression
+* [x] **FFN** — feedforward neural network
+* [x] **RNN** — vanilla recurrent neural network
+* [x] **GRU** — gated recurrent unit
+* [x] **LSTM** — long short-term memory
+* [x] **Transformer** — standard transformer
+* [x] **iTransformer** — inverted transformer for time series
+* [x] **RWKV** — time-mix + channel-mix hybrid RNN
+* [x] **Mamba** — selective state space model
+* [x] **DyEnsemble** — dynamically assembled state-dependent decoder
+* [x] **StateMoE** — nonlinear state-dependent decoder
+
+
+
+# 2. Setup
+
+## 2.1 Environment Setup
 
 `ndkit` requires **Python 3.10**.
 
@@ -32,7 +50,7 @@ conda activate ndkit
 pip install -r requirements.txt
 ```
 
-# 1.2 Data Preparation
+# 2.2 Data Preparation
 
 This toolkit uses datasets from the **Neural Latents Benchmark**:
 🔗 [https://neurallatents.github.io/](https://neurallatents.github.io/)
@@ -50,11 +68,11 @@ or update paths in your configuration file.
 
 
 
-# 2. Usage
+# 3. Usage
 
-## 2.1 Quick Start
+## 3.1 Quick Start
 
-### 2.1.1 Train a model
+### 3.1.1 Train a model
 
 Run training using a configuration file:
 
@@ -68,7 +86,7 @@ Or override YAML parameters from the command line:
 python main.py -m train -c configs/NLB-GRU.yaml train.n_epochs=2 model.
 ```
 
-### 2.1.2 Evaluate a model
+### 3.1.2 Evaluate a model
 
 Evaluate a trained model on the testset by loading a checkpoint:
 
@@ -76,7 +94,7 @@ Evaluate a trained model on the testset by loading a checkpoint:
 python main.py -m eval -c configs/NLB-GRU.yaml -k path/to/best_model.pt
 ```
 
-### 2.1.3 Train and then evaluate automatically
+### 3.1.3 Train and then evaluate automatically
 
 ```bash
 python main.py -m train_eval -c configs/NLB-GRU.yaml
@@ -88,9 +106,9 @@ This runs:
 2. Saving the best checkpoint
 3. Evaluating on the test set
 
-# 2.2 Extensions
+# 3.2 Extensions
 
-## 2.2.1 Custom Models
+## 3.2.1 Custom Models
 
 To add a model, create a file ending with `Model.py` under:
 
@@ -114,7 +132,7 @@ class Model(nn.Module):
         self.hidden_size = getattr(cfg, "hidden_size", 128)  # optional
 ```
 
-## 2.2.2 Custom Datasets
+## 3.2.2 Custom Datasets
 
 To add a dataset, create a file ending with `Dataset.py` under:
 
@@ -136,7 +154,7 @@ class MyDataset(Dataset):
         ...
 ```
 
-## 2.2.3 Create Configs
+## 3.2.3 Create Configs
 
 To use a custom model or dataset, create a corresponding configuration file under:
 
@@ -155,6 +173,11 @@ model:
   name: YourModelName
   ...
 ```
+
+> **About `model.runner_type`:**  
+> Use `runner_type: trainloop` for PyTorch models trained with epochs and backpropagation (this applies to most deep learning models).  
+> Use `runner_type: fit` for models that provide their own `fit(X, Y)` method (e.g., WF, KF, DyEnsemble).
+
 
 # Acknowledgments
 

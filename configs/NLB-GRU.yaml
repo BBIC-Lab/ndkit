@@ -1,15 +1,15 @@
-result_root: '/home/wl/Projects/ndkit/results'
+result_root: 'results'
 note: ''
 
 # ==================== dataset parameters
 data:
   name: 'NLB'
   session: 'mc_maze'
-  data_dir: '/home/wl/Projects/ndkit/data/nlb_data'
+  data_dir: 'data/nlb_data'
 
   neural: 
-    Delta: 20
-    tau_prime: 14
+    Delta: 20 # bin size in ms
+    tau_prime: 14 # how many past bins to consider
 
   kin:
     type: 'vel'
@@ -20,6 +20,8 @@ data:
 # ==================== model parameters
 model:
   name: 'GRU'
+  flatten_input: False # whether to flatten the input time dimension, default False.
+  runner_type: 'trainloop' # ''trainloop' or 'fit', default 'trainloop'.
   hidden_size: 540
   num_layers: 1
   dropout: 0.26

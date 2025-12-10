@@ -9,7 +9,7 @@ data:
 
   neural: 
     Delta: 20
-    tau_prime: 14
+    tau_prime: 0
 
   kin:
     type: 'vel'
@@ -19,25 +19,10 @@ data:
 
 # ==================== model parameters
 model:
-  name: 'RWKV'
-  head_size: 64
-  num_heads: 4
-  dropout: 0.1
-  num_layers: 3
+  name: 'KF'
+  runner_type: 'fit'
+  flatten_input: True # whether to flatten the input time dimension
 
 # ==================== training parameters
 train:
-  gpu_to_use: '0'
-  opt_name: 'Adam'
-  lr: 0.001
-  weight_decay: 0
-  bs: 32
-  loss_name: 'MSE'
-  seed: 3407
-  n_epochs: 200
-  early_stop:
-    patience: 10
-    delta: 0.005
-    metric: 'vaf'
-    mode: 'max'
-    relative: False
+  seed: 3407 # maybe not used

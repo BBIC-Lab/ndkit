@@ -15,7 +15,13 @@ from ndkit.utils.training import set_seed, EarlyStopping, count_parameters
 from ndkit.models.get_model import get_model
 
 
-class Runner:
+class TrainLoopRunner:
+    """
+    Runner for models that require an external training loop.
+
+    The runner handles epochs, mini-batches, backpropagation, and optimizer updates.
+    Suitable for PyTorch-style neural networks.
+    """
     def __init__(self, cfg):
         self.cfg = cfg
         self.device = None
@@ -62,6 +68,9 @@ class Runner:
         )
         self.main_logger.info(
             f"Input size: {self.cfg.model.input_size}, output size: {self.cfg.model.output_size}, seq_len: {self.cfg.model.seq_len}"
+        )
+        self.main_logger.info(
+            f"Training samples: {len(self.train_loader.dataset)}, Validation samples: {len(self.val_loader.dataset)}, Testing samples: {len(self.test_loader.dataset)}"
         )
 
         # Epoch loop
@@ -169,7 +178,7 @@ class Runner:
         return output, loss
 
     # ================================================================
-    # Standalone evaluation API
+    # Evaluation
     # ================================================================
     def eval(self, ckpt_path=None, save_outputs=True):
         """Evaluate the model on the test set."""
@@ -226,7 +235,8 @@ class Runner:
         self.val_loader = DataLoader(val_set, batch_size=self.cfg.train.bs, shuffle=False)
         self.test_loader = DataLoader(test_set, batch_size=self.cfg.train.bs, shuffle=False)
 
-        if self.cfg.model.name == "FFN":
+        flatten_input = getattr(self.cfg.model, "flatten_input", False)
+        if flatten_input:
             self.cfg.model.input_size = train_set.x_dim * train_set.seq_len
         else:
             self.cfg.model.input_size = train_set.x_dim

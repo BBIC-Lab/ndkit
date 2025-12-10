@@ -19,10 +19,10 @@ data:
 
 # ==================== model parameters
 model:
-  name: 'LSTM'
-  hidden_size: 540
-  num_layers: 1
-  dropout: 0.26
+  name: 'RNN'
+  hidden_size: 256
+  num_layers: 2
+  dropout: 0.2
   bidirectional: False
 
 # ==================== training parameters

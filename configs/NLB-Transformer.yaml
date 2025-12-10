@@ -1,11 +1,11 @@
-result_root: '/home/wl/Projects/ndkit/results'
+result_root: 'results'
 note: ''
 
 # ==================== dataset parameters
 data:
   name: 'NLB'
   session: 'mc_maze'
-  data_dir: '/home/wl/Projects/ndkit/data/nlb_data'
+  data_dir: 'data/nlb_data'
 
   neural: 
     Delta: 20
