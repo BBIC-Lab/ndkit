@@ -50,7 +50,7 @@ conda activate ndkit
 pip install -r requirements.txt
 ```
 
-# 2.2 Data Preparation
+## 2.2 Data Preparation
 
 This toolkit uses datasets from the **Neural Latents Benchmark**:
 🔗 [https://neurallatents.github.io/](https://neurallatents.github.io/)
@@ -106,9 +106,9 @@ This runs:
 2. Saving the best checkpoint
 3. Evaluating on the test set
 
-# 3.2 Extensions
+## 3.2 Extensions
 
-## 3.2.1 Custom Models
+### 3.2.1 Custom Models
 
 To add a model, create a file ending with `Model.py` under:
 
@@ -132,7 +132,7 @@ class Model(nn.Module):
         self.hidden_size = getattr(cfg, "hidden_size", 128)  # optional
 ```
 
-## 3.2.2 Custom Datasets
+### 3.2.2 Custom Datasets
 
 To add a dataset, create a file ending with `Dataset.py` under:
 
@@ -154,7 +154,7 @@ class MyDataset(Dataset):
         ...
 ```
 
-## 3.2.3 Create Configs
+### 3.2.3 Create Configs
 
 To use a custom model or dataset, create a corresponding configuration file under:
 
