@@ -1,0 +1,45 @@
+result_root: '/home/wl/Projects/ndkit/results'
+note: ''
+
+# ==================== dataset parameters
+data:
+  name: 'NLB'
+  session: 'mc_maze'
+  data_dir: '/home/wl/Projects/ndkit/data/nlb_data'
+
+  neural: 
+    Delta: 20
+    tau_prime: 14
+
+  kin:
+    type: 'vel'
+
+  split:
+    test_frac: 0.2
+
+# ==================== model parameters
+model:
+  name: 'Transformer'
+  d_model: 128
+  num_heads: 4
+  d_ff: 512
+  num_layers: 5
+  dropout: 0.25
+
+
+# ==================== training parameters
+train:
+  gpu_to_use: '0'
+  opt_name: 'Adam'
+  lr: 0.0009
+  weight_decay: 0.004
+  bs: 256
+  loss_name: 'MSE'
+  seed: 3407
+  n_epochs: 200
+  early_stop:
+    patience: 10
+    delta: 0.005
+    metric: 'vaf'
+    mode: 'max'
+    relative: False

@@ -1,0 +1,43 @@
+result_root: '/home/wl/Projects/ndkit/results'
+note: ''
+
+# ==================== dataset parameters
+data:
+  name: 'NLB'
+  session: 'mc_maze'
+  data_dir: '/home/wl/Projects/ndkit/data/nlb_data'
+
+  neural: 
+    Delta: 20
+    tau_prime: 14
+
+  kin:
+    type: 'vel'
+
+  split:
+    test_frac: 0.2
+
+# ==================== model parameters
+model:
+  name: 'GRU'
+  hidden_size: 540
+  num_layers: 1
+  dropout: 0.26
+  bidirectional: False
+
+# ==================== training parameters
+train:
+  gpu_to_use: '0'
+  opt_name: 'Adam'
+  lr: 0.001
+  weight_decay: 0
+  bs: 32
+  loss_name: 'MSE'
+  seed: 3407
+  n_epochs: 200
+  early_stop:
+    patience: 10
+    delta: 0.005
+    metric: 'vaf'
+    mode: 'max'
+    relative: False

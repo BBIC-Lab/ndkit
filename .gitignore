@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+tmp/
+tmp_*
+*_tmp
+*.tmp
+
+# Results
+results/
+
+# Data files
+data/
+
+# Environments
+.env/
+.venv/
+venv/
+
+# Editors
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
