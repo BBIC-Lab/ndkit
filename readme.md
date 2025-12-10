@@ -25,7 +25,6 @@ ndkit implements a broad collection of neural decoding models, this section list
 * [x] **Transformer** — standard transformer
 * [x] **iTransformer** — inverted transformer for time series
 * [x] **RWKV** — time-mix + channel-mix hybrid RNN
-* [x] **Mamba** — selective state space model
 * [x] **DyEnsemble** — dynamically assembled state-dependent decoder
 * [x] **StateMoE** — nonlinear state-dependent decoder
 
