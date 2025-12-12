@@ -147,12 +147,12 @@ class Model:
     # ==================================================================
     # Predict
     # ==================================================================
-    def predict(self, Y):
+    def predict(self, yyy):
         """
         Y : neural data [n_neur, T]
         Returns: predicted latent state [pred_dim, T]
         """
-
+        Y = yyy.T
         T = Y.shape[1]
 
         # Initialize particles
@@ -163,8 +163,7 @@ class Model:
 
         for t in range(T):
             preds.append(self.step(Y[:, t]))
-
-        return np.stack(preds, axis=1)
+        return np.stack(preds, axis=1).T
 
 
     # ==================================================================
