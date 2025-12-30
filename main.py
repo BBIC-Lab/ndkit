@@ -9,15 +9,15 @@ def get_runner(cfg):
     """
     Select runner type based on cfg.model.runner_type.
     """
-    runner_type = getattr(cfg.model, "runner_type", "train_loop")
+    runner_type = getattr(cfg.model, "runner_type", "trainloop")
 
-    if runner_type == "train_loop":
+    if runner_type == "trainloop":
         return TrainLoopRunner(cfg)
     elif runner_type == "fit":
         return FitRunner(cfg)
     else:
         raise ValueError(f"Unknown runner_type: {runner_type}. "
-                         f"Expected 'train_loop' or 'fit'.")
+                         f"Expected 'trainloop' or 'fit'.")
 
 
 def main():
