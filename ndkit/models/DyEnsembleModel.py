@@ -157,6 +157,7 @@ class Model:
 
         # Initialize particles
         self.x = np.zeros((self.pred_dim, self.n_particals))
+        self.particle_weights = np.ones(self.n_particals) / self.n_particals
         self.p = np.ones(self.n_encoding_models) / self.n_encoding_models
 
         preds = []
@@ -231,20 +232,21 @@ class Model:
         # --------------------------------------------------------------
         # Compute likelihoods from each model
         # --------------------------------------------------------------
-        weights = []
+        model_particle_weights = []
         Cs = []
-
+        prob = np.zeros_like(self.p)
+        
         for model in self.encoding_models:
             w, C = model.get_prob(self.x, z)
-            weights.append(w)
+            w = w / w.sum()
+            prob[i] = self.particle_weights @ w
+            tem_particle_weight = self.particle_weights * w
+            w = tem_particle_weight / tem_paricle_weight.sum()
+            model_particle_weights.append(w)
             Cs.append(C)
-
+            
         Cmax = np.max(Cs)
-        prob = np.zeros_like(self.p)
-
-        for i in range(self.n_encoding_models):
-            prob[i] = weights[i].mean() * np.exp(Cs[i] - Cmax)
-
+            
         # Avoid numeric collapse
         self.p = self.p * prob
         self.p = np.maximum(self.p, 1e-8)
@@ -255,9 +257,10 @@ class Model:
         # --------------------------------------------------------------
         final_w = np.zeros(self.n_particals)
         for i in range(self.n_encoding_models):
-            final_w += self.p[i] * weights[i] * np.exp(Cs[i] - Cmax)
+            final_w += self.p[i] * model_particle_weights[i] * np.exp(Cs[i] - Cmax)
 
         final_w = final_w / final_w.sum()
+        self.particle_weights = final_w
 
         pred = (self.x * final_w.reshape(1, -1)).sum(axis=1)
 
